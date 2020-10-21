@@ -26,7 +26,6 @@ def picture():
     while True:
         # Take in the filename from the user and load the image
         image_name = input('Enter the name + extension of your image (e.g. Test.jpg)')
-        print(image_name)
         img = cv2.imread(image_name)
         try:
             # Convert the image to a grayscale image to enable face detection
