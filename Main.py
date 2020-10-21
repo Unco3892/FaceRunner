@@ -19,16 +19,22 @@ def picture():
     print('While your image is displayed, press:')
     print('1) To save your image.')
     print('0) To close the image.\n')
-    
-    # Take in the filename from the user
-    image_name = input('Enter the name + extension of your image (e.g. Test.jpg)')
 
-    # Load the classifier and image
+    # Load the classifier
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    img = cv2.imread(image_name)
-
-    # Convert the image to a grayscale image to enable face detection
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    while True:
+        # Take in the filename from the user and load the image
+        image_name = input('Enter the name + extension of your image (e.g. Test.jpg)')
+        print(image_name)
+        img = cv2.imread(image_name)
+        try:
+            # Convert the image to a grayscale image to enable face detection
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            break
+        # Catch a conversion error that occurs when the filename/extension is incorrect
+        except cv2.error:
+            print('Image name or extension are incorrect. Please try again.')
 
     # Detect faces in the image
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
@@ -69,14 +75,14 @@ menu()
 # If the input is invalid, prompt the user to try again.
 while True:
     try:
-        choice = input('Enter your choice:')
-        if choice == '1':
+        choice = int(input('Enter your choice:'))
+        if choice == 1:
             picture()
             menu()
-        elif choice == '2':
+        elif choice == 2:
             webcam()
             menu()
-        elif choice == '0':
+        elif choice == 0:
             sys.exit()
         else:
             print('That was not a valid number. Try again.')
