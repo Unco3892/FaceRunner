@@ -127,21 +127,24 @@ def webcam_emoji_replacer():
     if not cap.isOpened():
         raise IOError("Cannot open webcam!")
     while True:
-        """ Analyze the images the webcam image at 1ms frame rate """
-        _, frame = cap.read()
-        """Start the webcam convert the image to a grayscale image to enable 
-        face detection"""
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        try:
+            """ Analyze the images the webcam image at 1ms frame rate """
+            _, frame = cap.read()
+            """Start the webcam convert the image to a grayscale image to enable 
+            face detection"""
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        """Detect faces in the current frame and overlay them with emoji's"""
-        frame = emoji_overlay(gray, frame)
+            """Detect faces in the current frame and overlay them with emoji's"""
+            frame = emoji_overlay(gray, frame)
 
-        """ Showing the final result """
-        cv2.imshow("Emoji Replacer 2020", frame)
-        key = cv2.waitKey(1)
-        """ Break the loop if the 27th key, meaning the escape key was pressed """
-        if key == 27:
-            break
+            """ Showing the final result """
+            cv2.imshow("Emoji Replacer 2020", frame)
+            key = cv2.waitKey(1)
+            """ Break the loop if the 27th key, meaning the escape key was pressed """
+            if key == 27:
+                break
+        except cv2.error:
+           pass
     cap.release()
     cv2.destroyAllWindows()
 
@@ -153,63 +156,66 @@ def webcam_mask():
     if not cap.isOpened():
         raise IOError("Cannot open webcam!")
     while True:
-        """ Analyze the images the webcam image at 1ms frame rate """
-        _, frame = cap.read()
-        """Start the webcam convert the image to a grayscale image to enable 
-        face detection"""
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        """ detecting the faces from the dlib library """
-        faces = detector(gray)
-        """ Once again we use the face coordinates but a little differently 
-        this time"""
-        for face in faces:
-            landmarks = predictor(gray, face)
-            left_ear = (landmarks.part(2).x, landmarks.part(2).y)  #
-            right_ear = (landmarks.part(14).x, landmarks.part(14).y)
-            center_face = (landmarks.part(33).x, landmarks.part(33).y)
-            mouth = (landmarks.part(66).x, landmarks.part(66).y)
-            """Creating an adjustable mask based on the width of the face as
-             well as the height, the height of the mask is 1085 and the width is
-              1627 giving us a ratio of 0.66"""
-            face_width = int(hypot(left_ear[0] - right_ear[0],
-                                   left_ear[1] - right_ear[1]) * 1.6)
-            chin_to_nose = int(face_width * 0.66)
+        try:
+            """ Analyze the images the webcam image at 1ms frame rate """
+            _, frame = cap.read()
+            """Start the webcam convert the image to a grayscale image to enable 
+            face detection"""
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            """ detecting the faces from the dlib library """
+            faces = detector(gray)
+            """ Once again we use the face coordinates but a little differently 
+            this time"""
+            for face in faces:
+                landmarks = predictor(gray, face)
+                left_ear = (landmarks.part(2).x, landmarks.part(2).y)  #
+                right_ear = (landmarks.part(14).x, landmarks.part(14).y)
+                center_face = (landmarks.part(33).x, landmarks.part(33).y)
+                mouth = (landmarks.part(66).x, landmarks.part(66).y)
+                """Creating an adjustable mask based on the width of the face as
+                well as the height, the height of the mask is 1085 and the width is
+                1627 giving us a ratio of 0.66"""
+                face_width = int(hypot(left_ear[0] - right_ear[0],
+                                    left_ear[1] - right_ear[1]) * 1.6)
+                chin_to_nose = int(face_width * 0.66)
 
-            """ Getting the top left of the face """
-            top_left = (int(mouth[0] - face_width / 2),
-                        int(mouth[1] - chin_to_nose / 2))
+                """ Getting the top left of the face """
+                top_left = (int(mouth[0] - face_width / 2),
+                            int(mouth[1] - chin_to_nose / 2))
 
-            """ Resizing the imported mask """
-            mask_face = cv2.resize(mask_image, (face_width, chin_to_nose))
-            mask_face_gray = cv2.cvtColor(mask_face, cv2.COLOR_BGR2GRAY)
+                """ Resizing the imported mask """
+                mask_face = cv2.resize(mask_image, (face_width, chin_to_nose))
+                mask_face_gray = cv2.cvtColor(mask_face, cv2.COLOR_BGR2GRAY)
 
-            """ Using the mask overlay """
-            # _, face_mask = cv2.threshold(mask_face_gray, 130, 255,
-            #                              cv2.THRESH_BINARY_INV)
-            _, face_mask = cv2.threshold(mask_face_gray, 0, 255,
-                                         cv2.THRESH_BINARY_INV)
+                """ Using the mask overlay """
+                # _, face_mask = cv2.threshold(mask_face_gray, 130, 255,
+                #                              cv2.THRESH_BINARY_INV)
+                _, face_mask = cv2.threshold(mask_face_gray, 0, 255,
+                                            cv2.THRESH_BINARY_INV)
 
-            """ Using the mask overlay """
-            face_area = frame[top_left[1]: top_left[1] + chin_to_nose,
-                        top_left[0]: top_left[0] + face_width]
+                """ Using the mask overlay """
+                face_area = frame[top_left[1]: top_left[1] + chin_to_nose,
+                            top_left[0]: top_left[0] + face_width]
 
-            """ Taking the face out and applying the mask """
-            face_area_no_face = cv2.bitwise_and(face_area, face_area,
-                                                mask=face_mask)
+                """ Taking the face out and applying the mask """
+                face_area_no_face = cv2.bitwise_and(face_area, face_area,
+                                                    mask=face_mask)
 
-            """ Adding the two images together """
-            final_face = cv2.add(face_area_no_face, mask_face)
+                """ Adding the two images together """
+                final_face = cv2.add(face_area_no_face, mask_face)
 
-            """ We set the array equal to the final_face  """
-            frame[top_left[1]: top_left[1] + chin_to_nose,
-            top_left[0]: top_left[0] + face_width] = final_face
+                """ We set the array equal to the final_face  """
+                frame[top_left[1]: top_left[1] + chin_to_nose,
+                top_left[0]: top_left[0] + face_width] = final_face
 
-        """ Showing the final result """
-        cv2.imshow("PROTECT YOURSELF 2020!", frame)
-        key = cv2.waitKey(1)
-        """ Break the loop if the 27th key, meaning the escape key was pressed """
-        if key == 27:
-            break
+            """ Showing the final result """
+            cv2.imshow("PROTECT YOURSELF 2020!", frame)
+            key = cv2.waitKey(1)
+            """ Break the loop if the 27th key, meaning the escape key was pressed """
+            if key == 27:
+                break
+        except cv2.error:
+            pass     
     cap.release()
     cv2.destroyAllWindows()
 
