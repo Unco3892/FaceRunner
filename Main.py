@@ -20,21 +20,12 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(
     "utilities/shape_predictor_68_face_landmarks.dat")
 
-"""We can cut down from our code in the webcam face detector and emoji 
-replacer by getting it to return (cap) in some way"""
-
-
-# def webcam_checker():
-#     print('Let\'s Start the Webcam!')
-#     cap = cv2.VideoCapture(0)
-#     if not cap.isOpened():
-#         raise IOError("Cannot open webcam!")
-
+"""Defining the function for the emoji overlay"""
 def emoji_overlay(gray, input):
     """ detecting the faces from the dlib library """
     faces = detector(gray)
-    """ We are interested in three points of the face coordinates, 
-    namely 19, 25 and 30 --> To understand better refer again to the 
+    """ We are interested in three points of the face coordinates,
+    namely 19, 25 and 30 --> To understand better refer again to the
     face-mark-points"""
     for face in faces:
         landmarks = predictor(gray, face)
@@ -42,11 +33,11 @@ def emoji_overlay(gray, input):
         right_forehead = (landmarks.part(25).x, landmarks.part(25).y)
         center_face = (landmarks.part(30).x, landmarks.part(30).y)
         """Creating an adjustable emoji based on the width of the face as
-            well as the height, the ratio of h to w in the emoji image is 
-            1. For the diameter we take index 0 as the first element and index 
+            well as the height, the ratio of h to w in the emoji image is
+            1. For the diameter we take index 0 as the first element and index
             1 as the second element"""
         diameter = int(hypot(left_forehead[0] - right_forehead[0],
-                                left_forehead[1] - right_forehead[1]) * 2.3)
+                             left_forehead[1] - right_forehead[1]) * 2.3)
         """ Getting the top left of the face """
         top_left = (int(center_face[0] - diameter / 2),
                     int(center_face[1] - diameter / 2))
@@ -57,9 +48,9 @@ def emoji_overlay(gray, input):
 
         """ Using the mask overlay """
         _, face_mask = cv2.threshold(emoji_face_gray, 25, 255,
-                                        cv2.THRESH_BINARY_INV)
+                                     cv2.THRESH_BINARY_INV)
 
-        """ Using the mask overlay """
+        """ Using the emoji overlay """
         face_area = input[top_left[1]: top_left[1] + diameter,
                     top_left[0]: top_left[0] + diameter]
 
@@ -77,6 +68,7 @@ def emoji_overlay(gray, input):
     return input
 
 
+"""Defining the function for the mask overlay"""
 def webcam_face_detector():
     print('Let\'s Start the Webcam!')
     print('Note: Press \'Escape\' to exit the webcam.')
@@ -86,7 +78,7 @@ def webcam_face_detector():
     while True:
         """Analyze the images the webcam image at 1ms frame rate"""
         _, frame = cap.read()
-        """Starting the webcam and converting  the image to a grayscale image to 
+        """Starting the webcam and converting  the image to a grayscale image to
         enable face detection"""
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         """ detecting the faces from the dlib library """
@@ -100,8 +92,8 @@ def webcam_face_detector():
             """ draw the rectangle on the frame """
             """ detect the landmark point (face points) """
             landmarks = predictor(gray, face)
-            """ Showing the coordinates of the face based on the 68 points 
-            in case you have quesitons on this part, please see 
+            """ Showing the coordinates of the face based on the 68 points
+            in case you have questions on this part, please see
             "utilities/face-mark-points.png" """
             for n in range(0, 68):
                 x = landmarks.part(n).x
@@ -110,7 +102,7 @@ def webcam_face_detector():
                 cv2.circle(frame, (x, y), 2, (255, 0, 0), -1)
         """ Show the frame """
         cv2.imshow("Face Detector 2020", frame)
-        """ Displaying a frame for 1 ms, after which display will 
+        """ Displaying a frame for 1 ms, after which display will
         be automatically closed"""
         key = cv2.waitKey(1)
         """Break the loop if the 27th key, meaning the escape key was pressed"""
@@ -119,7 +111,8 @@ def webcam_face_detector():
     cap.release()
     cv2.destroyAllWindows()
 
-
+""" Defining the function which uses the webcam to make emoji replacement 
+while calling the `emoji_overlay`  function created  earlier"""
 def webcam_emoji_replacer():
     print('Let\'s Start the Webcam!')
     print('Note: Press \'Escape\' to exit the webcam.')
@@ -130,7 +123,7 @@ def webcam_emoji_replacer():
         try:
             """ Analyze the images the webcam image at 1ms frame rate """
             _, frame = cap.read()
-            """Start the webcam convert the image to a grayscale image to enable 
+            """Start the webcam convert the image to a grayscale image to enable
             face detection"""
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -144,11 +137,12 @@ def webcam_emoji_replacer():
             if key == 27:
                 break
         except cv2.error:
-           pass
+            pass
     cap.release()
     cv2.destroyAllWindows()
 
-
+""" Defining the function that uses the webcam and puts places the mask 
+overlay on top of the face"""
 def webcam_mask():
     print('Let\'s Start the Webcam!')
     print('Note: Press \'Escape\' to exit the webcam.')
@@ -159,12 +153,12 @@ def webcam_mask():
         try:
             """ Analyze the images the webcam image at 1ms frame rate """
             _, frame = cap.read()
-            """Start the webcam convert the image to a grayscale image to enable 
+            """Start the webcam convert the image to a grayscale image to enable
             face detection"""
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             """ detecting the faces from the dlib library """
             faces = detector(gray)
-            """ Once again we use the face coordinates but a little differently 
+            """ Once again we use the face coordinates but a little differently
             this time"""
             for face in faces:
                 landmarks = predictor(gray, face)
@@ -176,7 +170,7 @@ def webcam_mask():
                 well as the height, the height of the mask is 1085 and the width is
                 1627 giving us a ratio of 0.66"""
                 face_width = int(hypot(left_ear[0] - right_ear[0],
-                                    left_ear[1] - right_ear[1]) * 1.6)
+                                       left_ear[1] - right_ear[1]) * 1.6)
                 chin_to_nose = int(face_width * 0.66)
 
                 """ Getting the top left of the face """
@@ -188,10 +182,8 @@ def webcam_mask():
                 mask_face_gray = cv2.cvtColor(mask_face, cv2.COLOR_BGR2GRAY)
 
                 """ Using the mask overlay """
-                # _, face_mask = cv2.threshold(mask_face_gray, 130, 255,
-                #                              cv2.THRESH_BINARY_INV)
                 _, face_mask = cv2.threshold(mask_face_gray, 0, 255,
-                                            cv2.THRESH_BINARY_INV)
+                                             cv2.THRESH_BINARY_INV)
 
                 """ Using the mask overlay """
                 face_area = frame[top_left[1]: top_left[1] + chin_to_nose,
@@ -215,13 +207,14 @@ def webcam_mask():
             if key == 27:
                 break
         except cv2.error:
-            pass     
+            pass
     cap.release()
     cv2.destroyAllWindows()
 
 
-""" This function requests an input image from the user and detects faces in 
-the image. Then, it provides the user with the option to either save the 
+""" Defining the function that requests an input image from the user and 
+detects faces in
+the image. Then, it provides the user with the option to either save the
 image or close the image."""
 def picture():
     # Print instructions for the user
@@ -248,7 +241,7 @@ def picture():
 
     """Detect faces in the image and replace them with emoji's"""
     img = emoji_overlay(gray, img)
-    
+
     """ Show the result at the end ."""
     cv2.imshow('Faces Detected!', img)
     """ Detect valid key presses from the user and perform appropriate actions accordingly """
@@ -259,7 +252,7 @@ def picture():
     cv2.destroyAllWindows()
 
 
-""" This function is for some nice printing capabilities for subheaders """
+""" Defining the function for some nice printing capabilities for subheaders """
 def print_structure(str, n):
     hyphens = "-" * int((n - len(str)) / 2)
     str_p = hyphens + " " + str + " " + hyphens
@@ -269,7 +262,7 @@ def print_structure(str, n):
     print(hyphens_bar)
 
 
-""" The function displays the header of the project"""
+""" Defining the function that displays the header of the project"""
 def display_header():
     with open("utilities/header.txt", "r") as file:
         for line in file:
@@ -277,7 +270,7 @@ def display_header():
             print(line, end="")
 
 
-""" This function prints the main menu."""
+""" Defining the main function which prints the main menu."""
 def menu():
     display_header()
     print_structure('Welcome to our face detection & replacement tool!', 60)
