@@ -29,7 +29,7 @@ def emoji_overlay(gray, input):
     face-mark-points"""
     for face in faces:
         landmarks = predictor(gray, face)
-        left_forehead = (landmarks.part(19).x, landmarks.part(19).y)  #
+        left_forehead = (landmarks.part(19).x, landmarks.part(19).y)  
         right_forehead = (landmarks.part(25).x, landmarks.part(25).y)
         center_face = (landmarks.part(30).x, landmarks.part(30).y)
         """Creating an adjustable emoji based on the width of the face as
@@ -85,11 +85,6 @@ def webcam_face_detector():
         faces = detector(gray)
         """ extracting the coordinate of the faces """
         for face in faces:
-            x1 = face.left()
-            y1 = face.top()
-            x2 = face.right()
-            y2 = face.bottom()
-            """ draw the rectangle on the frame """
             """ detect the landmark point (face points) """
             landmarks = predictor(gray, face)
             """ Showing the coordinates of the face based on the 68 points
@@ -162,7 +157,7 @@ def webcam_mask():
             this time"""
             for face in faces:
                 landmarks = predictor(gray, face)
-                left_ear = (landmarks.part(2).x, landmarks.part(2).y)  #
+                left_ear = (landmarks.part(2).x, landmarks.part(2).y)  
                 right_ear = (landmarks.part(14).x, landmarks.part(14).y)
                 center_face = (landmarks.part(33).x, landmarks.part(33).y)
                 mouth = (landmarks.part(66).x, landmarks.part(66).y)
@@ -213,11 +208,9 @@ def webcam_mask():
 
 
 """ Defining the function that requests an input image from the user and 
-detects faces in
-the image. Then, it provides the user with the option to either save the
-image or close the image."""
-def picture():
-    # Print instructions for the user
+detects faces in the image. Depending on the user's choic in the main menu, 
+it replaces them with emoji's."""
+def picture(emoji):
     print('\nInstructions:')
     print(
         'Before starting, place the image that you would like to use in the same'
@@ -234,13 +227,26 @@ def picture():
             """ Convert the image to a grayscale image to enable face detection """
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             break
-        # Catch a conversion error that occurs when the  filename/extension
-        # is incorrect
         except cv2.error:
             print('Image name or extension are incorrect. Please try again.')
 
-    """Detect faces in the image and replace them with emoji's"""
-    img = emoji_overlay(gray, img)
+    """Detect faces in the image and replace them with emoji's, if applicable"""
+    if emoji == True:
+        img = emoji_overlay(gray, img)
+    elif emoji == False:
+        faces = detector(gray)
+        """ extracting the coordinate of the faces """
+        for face in faces:
+            """ detect the landmark point (face points) """
+            landmarks = predictor(gray, face)
+            """ Showing the coordinates of the face based on the 68 points
+            in case you have questions on this part, please see
+            "utilities/face-mark-points.png" """
+            for n in range(0, 68):
+                x = landmarks.part(n).x
+                y = landmarks.part(n).y
+                """ drawing those coordinates """
+                cv2.circle(img, (x, y), 2, (255, 0, 0), -1)
 
     """ Show the result at the end ."""
     cv2.imshow('Faces Detected!', img)
@@ -266,7 +272,6 @@ def print_structure(str, n):
 def display_header():
     with open("utilities/header.txt", "r") as file:
         for line in file:
-            cc = 1
             print(line, end="")
 
 
@@ -274,7 +279,6 @@ def display_header():
 def menu():
     display_header()
     print_structure('Welcome to our face detection & replacement tool!', 60)
-    # print()
     print(
         'This program allows you to either select an existing image or '
         '\nstream your webcam.')
@@ -285,9 +289,10 @@ def menu():
         'emoji.')
     print('What would you like to do:')
     print('1) Use an existing image to detect faces.')
-    print('2) Use your webcam to detect faces.')
-    print('3) Use your webcam to be shocked.')
-    print('4) Use your webcam to be protected immediately!')
+    print('2) Use an existing image to be shocked.')
+    print('3) Use your webcam to detect faces.')
+    print('4) Use your webcam to be shocked.')
+    print('5) Use your webcam to be protected immediately!')
     print('0) Exit the program. \n')
 
 
@@ -303,15 +308,18 @@ while True:
     try:
         choice = int(input('Enter your choice:'))
         if choice == 1:
-            picture()
+            picture(False)
             menu()
         elif choice == 2:
-            webcam_face_detector()
+            picture(True)
             menu()
         elif choice == 3:
-            webcam_emoji_replacer()
+            webcam_face_detector()
             menu()
         elif choice == 4:
+            webcam_emoji_replacer()
+            menu()
+        elif choice == 5:
             webcam_mask()
             menu()
         elif choice == 0:
