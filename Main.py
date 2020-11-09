@@ -29,7 +29,7 @@ def emoji_overlay(gray, input):
     face-mark-points"""
     for face in faces:
         landmarks = predictor(gray, face)
-        left_forehead = (landmarks.part(19).x, landmarks.part(19).y)  
+        left_forehead = (landmarks.part(19).x, landmarks.part(19).y)
         right_forehead = (landmarks.part(25).x, landmarks.part(25).y)
         center_face = (landmarks.part(30).x, landmarks.part(30).y)
         """Creating an adjustable emoji based on the width of the face as
@@ -157,9 +157,8 @@ def webcam_mask():
             this time"""
             for face in faces:
                 landmarks = predictor(gray, face)
-                left_ear = (landmarks.part(2).x, landmarks.part(2).y)  
+                left_ear = (landmarks.part(2).x, landmarks.part(2).y)
                 right_ear = (landmarks.part(14).x, landmarks.part(14).y)
-                center_face = (landmarks.part(33).x, landmarks.part(33).y)
                 mouth = (landmarks.part(66).x, landmarks.part(66).y)
                 """Creating an adjustable mask based on the width of the face as
                 well as the height, the height of the mask is 1085 and the width is
