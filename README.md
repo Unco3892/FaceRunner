@@ -1,5 +1,5 @@
 # **FaceRunner**: Face detection and overlay
-Presented to [Dr. Mario Silic] (https://www.alexandria.unisg.ch/persons/6160) by Ilia Azizi and Emile Evers for the [course in programming at the University of St. Gallen 2020](https://codingxcamp.com/) 
+Presented to [Dr. Mario Silic](https://www.alexandria.unisg.ch/persons/6160) by Ilia Azizi and Emile Evers for the [course in programming at the University of St. Gallen 2020](https://codingxcamp.com/)
 ## Introduction
 
 This project aims to detect faces and some additional overlays from photos or live video streams broadcasted through the webcam.
