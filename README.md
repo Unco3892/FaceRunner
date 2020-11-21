@@ -4,7 +4,9 @@
 This project aims to detect faces and some additional overlays from photos or live video streams broadcasted through the webcam.
 
 ## Demo Video
-To see a demo video, click the screenshot in the center. =>
+To see a demo video, click on the [![photo](https://github.com/eversemile/codingcamp/blob/main/utilities/video-thumb.jpg?raw=true)](href="https://rec.unil.ch/lti/v125f70a5e739oem2u8n/)
+
+=>
 <a style="float:center" href="https://rec.unil.ch/lti/v125f70a5e739oem2u8n/" target="_blank">
   <img alt="FaceRunner Demo Video" src="https://github.com/eversemile/codingcamp/blob/main/utilities/video-thumb.jpg?raw=true" width="50%"/>
 </a>
