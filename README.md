@@ -1,4 +1,4 @@
-# Face detection and overlay
+# FaceRunner: Face detection and overlay
 ## Introduction
 
 This project aims to detect faces and some additional overlays from photos or live video streams broadcasted through the webcam.
