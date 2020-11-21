@@ -6,7 +6,7 @@ This project aims to detect faces and some additional overlays from photos or li
 ## Demo Video
 To see a demo video, click the screenshot in the center. =>
 <a style="float:center" href="https://rec.unil.ch/lti/v125f70a5e739oem2u8n/" target="_blank">
-  <img alt="FaceRunner Demo Video" src="https://github.com/eversemile/codingcamp/tree/main/utilities/video-thumb.jpgg" width="50%"/>
+  <img alt="FaceRunner Demo Video" src="https://github.com/eversemile/codingcamp/blob/main/utilities/video-thumb.jpg?raw=true" width="50%"/>
 </a>
 
 ## Dependencies
