@@ -9,7 +9,7 @@ This project aims to detect faces and some additional overlays from photos or li
 * To install the required packages, run `pip install -r requirements.txt`
 
 **Note**: If you have recieve an error for the `dlib` library, dlib is an c++ libary with python bindings. It needs to be builded first. To do so you must run:
-- run `pip install cmake`
+- run `pip install cmake` , if that didn't work you can also install it manually from [here](https://cmake.org/download/)
 - Install Visual Studio build tools from [here](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#).
 - In Visual Studio 2017 or other versions, go to the Individual Components tab, Visual C++ Tools for Cmake, and check the checkbox under the "Compilers, build tools and runtimes" section.
 -  If all steps were unsuccessful, you can also follow the instructions by various people [here](https://stackoverflow.com/questions/41912372/dlib-installation-on-windows-10).
