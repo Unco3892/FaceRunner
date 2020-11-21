@@ -1,4 +1,5 @@
 # Face detection and overlay
+Presented to [Dr. Mario Silic](https://www.alexandria.unisg.ch/persons/6160) for the [programming course at Univesity of St. Gallen] (https://codingxcamp.com/)
 ## Introduction
 
 This project aims to detect faces and some additional overlays from photos or live video streams broadcasted through the webcam.
@@ -6,7 +7,7 @@ This project aims to detect faces and some additional overlays from photos or li
 ## Dependencies
 
 * Python 3.8.6, [OpenCV 4](https://pypi.org/project/opencv-python/), [dlib 19](https://pypi.org/project/dlib/), [pyfiglet 0.8](https://pypi.org/project/pyfiglet/) 
-* To install the required packages, run `pip install -r requirements.txt`.
+* To install the required packages, run `pip install -r requirements.txt`
 
 ## Usage
 To run the program type `python Main.py`
