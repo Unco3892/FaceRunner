@@ -1,5 +1,4 @@
 # Face detection and overlay
-Presented to [Dr. Mario Silic](https://www.alexandria.unisg.ch/persons/6160) for the [programming course at Univesity of St. Gallen](https://codingxcamp.com/)
 ## Introduction
 
 This project aims to detect faces and some additional overlays from photos or live video streams broadcasted through the webcam.
