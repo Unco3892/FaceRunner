@@ -5,8 +5,14 @@ This project aims to detect faces and some additional overlays from photos or li
 
 ## Dependencies
 
-* Python 3.8.6, [OpenCV 4](https://pypi.org/project/opencv-python/), [dlib 19](https://pypi.org/project/dlib/), [pyfiglet 0.8](https://pypi.org/project/pyfiglet/) 
+* Python 3.8.6, [OpenCV 4](https://pypi.org/project/opencv-python/), [dlib 19](https://pypi.org/project/dlib/), [pyfiglet 0.8](https://pypi.org/project/pyfiglet/)
 * To install the required packages, run `pip install -r requirements.txt`
+
+**Note**: If you have recieve an error for the `dlib` library, dlib is an c++ libary with python bindings. It needs to be builded first. To do so you must run:
+- run `pip install cmake`
+- Install Visual Studio build tools from [here](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#).
+- In Visual Studio 2017 or other versions, go to the Individual Components tab, Visual C++ Tools for Cmake, and check the checkbox under the "Compilers, build tools and runtimes" section.
+-  If all steps were unsuccessful, you can also follow the instructions by various people [here](https://stackoverflow.com/questions/41912372/dlib-installation-on-windows-10).
 
 ## Usage
 To run the program type `python Main.py`
