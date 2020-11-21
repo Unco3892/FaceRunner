@@ -4,8 +4,7 @@
 This project aims to detect faces and some additional overlays from photos or live video streams broadcasted through the webcam.
 
 ## Demo Video
-To see a demo video, click on the photo [![](https://github.com/eversemile/codingcamp/blob/main/utilities/video-thumb.jpg?raw=true)](href="https://rec.unil.ch/lti/v125f70a5e739oem2u8n/)
-
+To see a demo video, click on the photo [![Face Runner Demo](https://github.com/eversemile/codingcamp/blob/main/utilities/video-thumb.jpg?raw=true)](https://rec.unil.ch/lti/v125f70a5e739oem2u8n/)
 ## Dependencies
 
 * Python 3.8.6, [OpenCV 4](https://pypi.org/project/opencv-python/), [dlib 19](https://pypi.org/project/dlib/), [pyfiglet 0.8](https://pypi.org/project/pyfiglet/)
