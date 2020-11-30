@@ -1,4 +1,4 @@
-# **FaceRunner**: Face detection and overlay
+# **FaceRunner**: Face detection and overlay tool
 Presented to [Dr. Mario Silic](https://www.alexandria.unisg.ch/persons/6160) by Ilia Azizi and Emile Evers for the [course in programming at the University of St. Gallen 2020](https://codingxcamp.com/)
 ## Introduction
 
